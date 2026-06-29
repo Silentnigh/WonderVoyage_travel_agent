@@ -1,0 +1,42 @@
+<%- include('../partials/header', {title: 'Packages'}) %>
+<%- include('../partials/navbar') %>
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Our Travel Packages</h1>
+    <p>Discover handpicked destinations across India</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="packages-grid">
+      <% packages.forEach((pkg, i) => {
+        const colors = [
+          'linear-gradient(135deg,#667eea,#764ba2)',
+          'linear-gradient(135deg,#f093fb,#f5576c)',
+          'linear-gradient(135deg,#4facfe,#00f2fe)',
+          'linear-gradient(135deg,#43e97b,#38f9d7)',
+          'linear-gradient(135deg,#fa709a,#fee140)',
+          'linear-gradient(135deg,#a18cd1,#fbc2eb)',
+        ];
+      %>
+      <div class="package-card">
+        <div class="package-img" style="background: <%= colors[i % colors.length] %>">
+          <span class="package-duration"><%= pkg.duration_days %> Days</span>
+        </div>
+        <div class="package-body">
+          <h3><%= pkg.name %></h3>
+          <p><%= pkg.description.substring(0, 120) %>...</p>
+          <div class="package-footer">
+            <div class="package-price">₹<%= pkg.price.toLocaleString('en-IN') %><span>/person</span></div>
+            <a href="/packages/<%= pkg.id %>" class="btn btn-sm btn-primary">Details</a>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

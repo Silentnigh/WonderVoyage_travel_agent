@@ -1,0 +1,59 @@
+<%- include('../partials/header', {title: 'Book ' + pkg.name}) %>
+<%- include('../partials/navbar') %>
+
+<div class="page-hero">
+  <div class="container">
+    <h1>Book Your Trip</h1>
+    <p><%= pkg.name %></p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container" style="max-width:640px">
+    <% if (success) { %>
+    <div class="alert alert-success"><%= success %></div>
+    <% } %>
+    <% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <div class="form-card">
+      <div class="form-card-pkg">
+        <strong><%= pkg.name %></strong>
+        <span>₹<%= pkg.price.toLocaleString('en-IN') %>/person · <%= pkg.duration_days %> days</span>
+      </div>
+      <form method="POST" action="/book/<%= pkg.id %>">
+        <div class="form-group">
+          <label>Travel Date *</label>
+          <input type="date" name="travel_date" class="form-control" required
+            min="<%= new Date(Date.now()+86400000).toISOString().split('T')[0] %>">
+        </div>
+        <div class="form-group">
+          <label>Number of Travellers *</label>
+          <select name="num_travelers" class="form-control" id="numTravelers" onchange="calcTotal()">
+            <% for(let i=1;i<=15;i++) { %><option value="<%= i %>"><%= i %></option><% } %>
+          </select>
+        </div>
+        <div class="total-box">
+          Estimated Total: <strong id="totalAmt">₹<%= pkg.price.toLocaleString('en-IN') %></strong>
+        </div>
+        <div class="form-group">
+          <label>Special Requests / Notes</label>
+          <textarea name="notes" class="form-control" rows="3" placeholder="Any dietary preferences, accessibility needs, etc."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Submit Booking Request</button>
+        <p class="form-note">After submission, our team will confirm your booking within 24 hours.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+const price = <%= pkg.price %>;
+function calcTotal() {
+  const n = parseInt(document.getElementById('numTravelers').value);
+  document.getElementById('totalAmt').textContent = '₹' + (price * n).toLocaleString('en-IN');
+}
+</script>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,36 @@
+<%- include('../partials/header', {title: 'Packages'}) %>
+<% let currentPage = 'packages' %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-page-header">
+  <h1>Packages</h1>
+  <a href="/admin/packages/new" class="btn btn-primary">+ New Package</a>
+</div>
+
+<div class="table-wrap">
+  <table class="admin-table">
+    <thead><tr>
+      <th>#</th><th>Name</th><th>Price</th><th>Duration</th><th>Status</th><th>Actions</th>
+    </tr></thead>
+    <tbody>
+      <% packages.forEach(pkg => { %>
+      <tr>
+        <td><%= pkg.id %></td>
+        <td><%= pkg.name %></td>
+        <td>₹<%= Number(pkg.price).toLocaleString('en-IN') %></td>
+        <td><%= pkg.duration_days %> days</td>
+        <td><span class="status-badge <%= pkg.is_active ? 'status-confirmed' : 'status-cancelled' %>"><%= pkg.is_active ? 'Active' : 'Inactive' %></span></td>
+        <td class="action-btns">
+          <a href="/admin/packages/<%= pkg.id %>/edit" class="btn btn-sm btn-outline">Edit</a>
+          <form method="POST" action="/admin/packages/<%= pkg.id %>/delete" style="display:inline" onsubmit="return confirm('Deactivate this package?')">
+            <button class="btn btn-sm btn-danger">Remove</button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-end') %>
+<%- include('../partials/footer') %>

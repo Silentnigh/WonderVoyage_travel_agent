@@ -1,0 +1,120 @@
+<%- include('../partials/header', {title: 'Booking #' + booking.id}) %>
+<% let currentPage = 'bookings' %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-page-header">
+  <div>
+    <a href="/admin/bookings" class="back-link">← Bookings</a>
+    <h1>Booking #<%= booking.id %></h1>
+  </div>
+  <div class="header-badges">
+    <span class="status-badge status-<%= booking.status %>"><%= booking.status %></span>
+    <span class="status-badge status-<%= booking.pay_status || 'unpaid' %>"><%= booking.pay_status || 'unpaid' %></span>
+  </div>
+</div>
+
+<div class="detail-admin-grid">
+  <!-- Booking info -->
+  <div>
+    <div class="admin-card">
+      <h3>Booking Details</h3>
+      <dl class="info-list">
+        <dt>Client</dt><dd><%= booking.client_name %> (<%= booking.client_email %>)</dd>
+        <dt>Package</dt><dd><%= booking.package_name %></dd>
+        <dt>Travel Date</dt><dd><%= booking.travel_date %></dd>
+        <dt>Travellers</dt><dd><%= booking.num_travelers %></dd>
+        <dt>Amount</dt><dd>₹<%= booking.amount?.toLocaleString('en-IN') %></dd>
+        <dt>Booked On</dt><dd><%= booking.created_at %></dd>
+        <% if (booking.notes) { %><dt>Notes</dt><dd><%= booking.notes %></dd><% } %>
+      </dl>
+    </div>
+
+    <!-- Update status -->
+    <div class="admin-card">
+      <h3>Update Booking Status</h3>
+      <form method="POST" action="/admin/bookings/<%= booking.id %>/status" class="inline-form">
+        <select name="status" class="form-control">
+          <option value="pending" <%= booking.status==='pending'?'selected':'' %>>Pending</option>
+          <option value="confirmed" <%= booking.status==='confirmed'?'selected':'' %>>Confirmed</option>
+          <option value="cancelled" <%= booking.status==='cancelled'?'selected':'' %>>Cancelled</option>
+        </select>
+        <button class="btn btn-primary">Update</button>
+      </form>
+    </div>
+
+    <!-- Payment -->
+    <div class="admin-card">
+      <h3>Payment</h3>
+      <form method="POST" action="/admin/bookings/<%= booking.id %>/payment" class="inline-form">
+        <select name="pay_status" class="form-control">
+          <option value="pending" <%= booking.pay_status==='pending'?'selected':'' %>>Pending</option>
+          <option value="completed" <%= booking.pay_status==='completed'?'selected':'' %>>Completed</option>
+          <option value="failed" <%= booking.pay_status==='failed'?'selected':'' %>>Failed</option>
+          <option value="refunded" <%= booking.pay_status==='refunded'?'selected':'' %>>Refunded</option>
+        </select>
+        <select name="payment_method" class="form-control">
+          <option value="cash">Cash</option>
+          <option value="bank_transfer">Bank Transfer</option>
+          <option value="card">Card</option>
+          <option value="online">Online</option>
+        </select>
+        <button class="btn btn-primary">Update Payment</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right column -->
+  <div>
+    <!-- Assignment -->
+    <div class="admin-card">
+      <h3>Vehicle & Associate</h3>
+      <% if (assignment) { %>
+      <dl class="info-list">
+        <dt>Vehicle</dt><dd><%= assignment.vehicle_name || 'Not assigned' %> (<%= assignment.plate_number || '' %>)</dd>
+        <dt>Associate</dt><dd><%= assignment.associate_name || 'Not assigned' %> (<%= assignment.associate_role || '' %>)</dd>
+      </dl>
+      <% } %>
+      <form method="POST" action="/admin/bookings/<%= booking.id %>/assign" class="stacked-form">
+        <div class="form-group">
+          <label>Assign Vehicle</label>
+          <select name="vehicle_id" class="form-control">
+            <option value="">— None —</option>
+            <% vehicles.forEach(v => { %>
+            <option value="<%= v.id %>" <%= assignment?.vehicle_id===v.id?'selected':'' %>><%= v.vehicle_name %> · <%= v.plate_number %> (Cap: <%= v.capacity %>)</option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Assign Associate</label>
+          <select name="associate_id" class="form-control">
+            <option value="">— None —</option>
+            <% associates.forEach(a => { %>
+            <option value="<%= a.id %>" <%= assignment?.associate_id===a.id?'selected':'' %>><%= a.name %> (<%= a.role %>)</option>
+            <% }) %>
+          </select>
+        </div>
+        <button class="btn btn-primary">Save Assignment</button>
+      </form>
+    </div>
+
+    <!-- Invoice -->
+    <div class="admin-card">
+      <h3>Invoice</h3>
+      <% if (booking.invoice_number) { %>
+      <dl class="info-list">
+        <dt>Invoice #</dt><dd><%= booking.invoice_number %></dd>
+        <dt>Amount</dt><dd>₹<%= booking.amount?.toLocaleString('en-IN') %></dd>
+        <dt>Generated</dt><dd><%= booking.inv_date %></dd>
+      </dl>
+      <% } else { %>
+      <p style="margin-bottom:1rem;color:var(--muted)">No invoice generated yet.</p>
+      <form method="POST" action="/admin/bookings/<%= booking.id %>/invoice">
+        <button class="btn btn-outline">Generate Invoice</button>
+      </form>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/admin-end') %>
+<%- include('../partials/footer') %>

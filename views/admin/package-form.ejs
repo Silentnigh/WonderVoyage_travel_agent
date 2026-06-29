@@ -1,0 +1,58 @@
+<%- include('../partials/header', {title: pkg ? 'Edit Package' : 'New Package'}) %>
+<% let currentPage = 'packages' %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-page-header">
+  <div>
+    <a href="/admin/packages" class="back-link">← Packages</a>
+    <h1><%= pkg ? 'Edit Package' : 'New Package' %></h1>
+  </div>
+</div>
+
+<div style="max-width:640px">
+  <% if (error) { %><div class="alert alert-error"><%= error %></div><% } %>
+  <div class="admin-card">
+    <form method="POST" action="/admin/packages/<%= pkg ? pkg.id+'/edit' : 'new' %>">
+      <div class="form-group">
+        <label>Package Name *</label>
+        <input type="text" name="name" class="form-control" value="<%= pkg?.name || '' %>" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Price (₹) *</label>
+          <input type="number" name="price" class="form-control" value="<%= pkg?.price || '' %>" required min="0">
+        </div>
+        <div class="form-group">
+          <label>Duration (days) *</label>
+          <input type="number" name="duration_days" class="form-control" value="<%= pkg?.duration_days || '' %>" required min="1">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea name="description" class="form-control" rows="3"><%= pkg?.description || '' %></textarea>
+      </div>
+      <div class="form-group">
+        <label>Image URL</label>
+        <input type="text" name="image_url" class="form-control" value="<%= pkg?.image_url || '' %>" placeholder="https://...">
+      </div>
+      <div class="form-group">
+        <label>Itinerary (one day per line)</label>
+        <textarea name="itinerary" class="form-control" rows="6" placeholder="Day 1: Arrival and check-in&#10;Day 2: City tour&#10;Day 3: Departure"><%= pkg?.itinerary || '' %></textarea>
+      </div>
+      <% if (pkg) { %>
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" name="is_active" <%= pkg.is_active ? 'checked' : '' %>> Active (visible to clients)
+        </label>
+      </div>
+      <% } %>
+      <div class="form-actions">
+        <a href="/admin/packages" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary"><%= pkg ? 'Save Changes' : 'Create Package' %></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('../partials/admin-end') %>
+<%- include('../partials/footer') %>

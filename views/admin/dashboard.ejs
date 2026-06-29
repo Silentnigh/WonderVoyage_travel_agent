@@ -1,0 +1,68 @@
+<%- include('../partials/header', {title: 'Admin Dashboard'}) %>
+<% let currentPage = 'dashboard' %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-page-header">
+  <h1>Dashboard</h1>
+  <span class="admin-date"><%= new Date().toDateString() %></span>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card stat-blue">
+    <div class="stat-icon">📋</div>
+    <div class="stat-val"><%= stats.totalBookings %></div>
+    <div class="stat-label">Total Bookings</div>
+  </div>
+  <div class="stat-card stat-amber">
+    <div class="stat-icon">⏳</div>
+    <div class="stat-val"><%= stats.pendingBookings %></div>
+    <div class="stat-label">Pending</div>
+  </div>
+  <div class="stat-card stat-green">
+    <div class="stat-icon">✅</div>
+    <div class="stat-val"><%= stats.confirmedBookings %></div>
+    <div class="stat-label">Confirmed</div>
+  </div>
+  <div class="stat-card stat-purple">
+    <div class="stat-icon">💰</div>
+    <div class="stat-val">₹<%= Number(stats.totalRevenue).toLocaleString('en-IN') %></div>
+    <div class="stat-label">Revenue</div>
+  </div>
+  <div class="stat-card stat-teal">
+    <div class="stat-icon">🏝️</div>
+    <div class="stat-val"><%= stats.totalPackages %></div>
+    <div class="stat-label">Active Packages</div>
+  </div>
+  <div class="stat-card stat-pink">
+    <div class="stat-icon">👥</div>
+    <div class="stat-val"><%= stats.totalClients %></div>
+    <div class="stat-label">Clients</div>
+  </div>
+</div>
+
+<div class="admin-section">
+  <h2>Recent Bookings</h2>
+  <div class="table-wrap">
+    <table class="admin-table">
+      <thead><tr>
+        <th>#ID</th><th>Client</th><th>Package</th><th>Travel Date</th><th>Status</th><th>Action</th>
+      </tr></thead>
+      <tbody>
+        <% recentBookings.forEach(b => { %>
+        <tr>
+          <td>#<%= b.id %></td>
+          <td><%= b.client_name %></td>
+          <td><%= b.package_name %></td>
+          <td><%= b.travel_date %></td>
+          <td><span class="status-badge status-<%= b.status %>"><%= b.status %></span></td>
+          <td><a href="/admin/bookings/<%= b.id %>" class="btn btn-sm btn-outline">View</a></td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+  <a href="/admin/bookings" class="btn btn-outline" style="margin-top:1rem">View All Bookings →</a>
+</div>
+
+<%- include('../partials/admin-end') %>
+<%- include('../partials/footer') %>

@@ -1,0 +1,36 @@
+<%- include('../partials/header', {title: 'Login'}) %>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <a href="/" class="auth-brand">🌏 WonderVoyage</a>
+    <h1>Welcome back</h1>
+    <p class="auth-sub">Sign in to manage your bookings</p>
+
+    <% if (typeof query !== 'undefined' && query.registered) { %>
+    <div class="alert alert-success">Account created! Please sign in.</div>
+    <% } %>
+    <% if (error) { %>
+    <div class="alert alert-error"><%= error %></div>
+    <% } %>
+
+    <form method="POST" action="/auth/login">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block btn-lg">Sign In</button>
+    </form>
+    <p class="auth-switch">Don't have an account? <a href="/auth/register">Register</a></p>
+    <div class="auth-demo">
+      <p><strong>Demo accounts:</strong></p>
+      <p>Admin: admin@travel.com / admin123</p>
+      <p>Client: client@travel.com / client123</p>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

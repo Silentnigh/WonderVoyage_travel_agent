@@ -1,0 +1,44 @@
+<%- include('../partials/header', {title: 'My Bookings'}) %>
+<%- include('../partials/navbar') %>
+
+<div class="page-hero">
+  <div class="container">
+    <h1>My Bookings</h1>
+    <p>Welcome back, <%= user.name %></p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <% if (!bookings.length) { %>
+    <div class="empty-state">
+      <div class="empty-icon">🗺️</div>
+      <h3>No bookings yet</h3>
+      <p>Start planning your first adventure!</p>
+      <a href="/packages" class="btn btn-primary">Browse Packages</a>
+    </div>
+    <% } else { %>
+    <div class="bookings-list">
+      <% bookings.forEach(b => { %>
+      <div class="booking-item">
+        <div class="booking-info">
+          <h3><%= b.package_name %></h3>
+          <div class="booking-meta">
+            <span>📅 <%= b.travel_date %></span>
+            <span>👥 <%= b.num_travelers %> traveller<%= b.num_travelers > 1 ? 's' : '' %></span>
+            <span>💰 ₹<%= b.amount?.toLocaleString('en-IN') %></span>
+          </div>
+          <% if (b.notes) { %><p class="booking-notes"><%= b.notes %></p><% } %>
+        </div>
+        <div class="booking-statuses">
+          <span class="status-badge status-<%= b.status %>"><%= b.status %></span>
+          <span class="status-badge status-<%= b.pay_status || 'unpaid' %>"><%= b.pay_status || 'unpaid' %></span>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

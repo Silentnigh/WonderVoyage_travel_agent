@@ -1,0 +1,40 @@
+<%- include('../partials/header', {title: 'Bookings'}) %>
+<% let currentPage = 'bookings' %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-page-header">
+  <h1>Bookings</h1>
+</div>
+
+<div class="filter-bar">
+  <a href="/admin/bookings" class="filter-btn <%= filter==='all'?'active':'' %>">All</a>
+  <a href="/admin/bookings?status=pending" class="filter-btn <%= filter==='pending'?'active':'' %>">Pending</a>
+  <a href="/admin/bookings?status=confirmed" class="filter-btn <%= filter==='confirmed'?'active':'' %>">Confirmed</a>
+  <a href="/admin/bookings?status=cancelled" class="filter-btn <%= filter==='cancelled'?'active':'' %>">Cancelled</a>
+</div>
+
+<div class="table-wrap">
+  <table class="admin-table">
+    <thead><tr>
+      <th>#ID</th><th>Client</th><th>Package</th><th>Date</th><th>Travellers</th><th>Amount</th><th>Status</th><th>Payment</th><th></th>
+    </tr></thead>
+    <tbody>
+      <% bookings.forEach(b => { %>
+      <tr>
+        <td>#<%= b.id %></td>
+        <td><div><%= b.client_name %></div><small><%= b.client_email %></small></td>
+        <td><%= b.package_name %></td>
+        <td><%= b.travel_date %></td>
+        <td><%= b.num_travelers %></td>
+        <td>₹<%= b.amount?.toLocaleString('en-IN') || '-' %></td>
+        <td><span class="status-badge status-<%= b.status %>"><%= b.status %></span></td>
+        <td><span class="status-badge status-<%= b.pay_status || 'unpaid' %>"><%= b.pay_status || 'unpaid' %></span></td>
+        <td><a href="/admin/bookings/<%= b.id %>" class="btn btn-sm btn-outline">Manage</a></td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-end') %>
+<%- include('../partials/footer') %>

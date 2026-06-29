@@ -1,0 +1,48 @@
+<%- include('../partials/header', {title: 'Associates'}) %>
+<% let currentPage = 'associates' %>
+<%- include('../partials/admin-sidebar') %>
+
+<div class="admin-page-header">
+  <h1>Associates</h1>
+</div>
+
+<div class="admin-card" style="max-width:500px;margin-bottom:2rem">
+  <h3>Add Associate</h3>
+  <form method="POST" action="/admin/associates/add" class="form-row-wrap">
+    <div class="form-group"><label>Name</label><input name="name" class="form-control" required></div>
+    <div class="form-group"><label>Role</label>
+      <select name="role" class="form-control">
+        <option value="driver">Driver</option>
+        <option value="guide">Guide</option>
+        <option value="coordinator">Coordinator</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Contact</label><input name="contact" class="form-control" placeholder="98000..."></div>
+    <div class="form-group" style="align-self:flex-end"><button class="btn btn-primary">Add</button></div>
+  </form>
+</div>
+
+<div class="table-wrap">
+  <table class="admin-table">
+    <thead><tr><th>#</th><th>Name</th><th>Role</th><th>Contact</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% associates.forEach(a => { %>
+      <tr>
+        <td><%= a.id %></td>
+        <td><%= a.name %></td>
+        <td><%= a.role %></td>
+        <td><%= a.contact %></td>
+        <td><span class="status-badge <%= a.is_available ? 'status-confirmed' : 'status-cancelled' %>"><%= a.is_available ? 'Available' : 'Unavailable' %></span></td>
+        <td>
+          <form method="POST" action="/admin/associates/<%= a.id %>/toggle">
+            <button class="btn btn-sm btn-outline"><%= a.is_available ? 'Mark Unavailable' : 'Mark Available' %></button>
+          </form>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/admin-end') %>
+<%- include('../partials/footer') %>

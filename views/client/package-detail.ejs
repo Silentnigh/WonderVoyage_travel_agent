@@ -1,0 +1,51 @@
+<%- include('../partials/header', {title: pkg.name}) %>
+<%- include('../partials/navbar') %>
+
+<div class="page-hero" style="background: linear-gradient(135deg,#667eea,#764ba2)">
+  <div class="container">
+    <a href="/packages" class="back-link">← All Packages</a>
+    <h1><%= pkg.name %></h1>
+    <p><%= pkg.duration_days %> Days · Starting from ₹<%= pkg.price.toLocaleString('en-IN') %>/person</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="detail-grid">
+      <div class="detail-main">
+        <h2>About this Trip</h2>
+        <p><%= pkg.description %></p>
+        <% if (pkg.itinerary) { %>
+        <h3 style="margin-top:2rem">Day-by-Day Itinerary</h3>
+        <div class="itinerary">
+          <% pkg.itinerary.split('\n').forEach((day, i) => { %>
+          <div class="itinerary-day">
+            <div class="day-num">Day <%= i+1 %></div>
+            <div class="day-text"><%= day.replace(/^Day \d+: /, '') %></div>
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+      </div>
+      <div class="detail-sidebar">
+        <div class="booking-card">
+          <div class="booking-card-price">₹<%= pkg.price.toLocaleString('en-IN') %><span>/person</span></div>
+          <ul class="booking-includes">
+            <li>✅ <%= pkg.duration_days %> days itinerary</li>
+            <li>✅ Expert guide included</li>
+            <li>✅ Transport arranged</li>
+            <li>✅ 24/7 support</li>
+          </ul>
+          <% if (user) { %>
+            <a href="/book/<%= pkg.id %>" class="btn btn-primary btn-block">Book Now</a>
+          <% } else { %>
+            <a href="/auth/login" class="btn btn-primary btn-block">Login to Book</a>
+          <% } %>
+          <p class="booking-note">Free cancellation within 48 hours of booking</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

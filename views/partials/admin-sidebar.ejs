@@ -1,0 +1,19 @@
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="sidebar-brand">🌏 WonderVoyage<span>Admin</span></div>
+    <nav class="sidebar-nav">
+      <a href="/admin" class="%= currentPage==='dashboard'?'active':'' %>">📊 Dashboard</a>
+      <a href="/admin/bookings" class="%= currentPage==='bookings'?'active':'' %>">📋 Bookings</a>
+      <a href="/admin/packages" class="%= currentPage==='packages'?'active':'' %>">🏝️ Packages</a>
+      <a href="/admin/customers" class="%= currentPage==='customers'?'active':'' %>">👥 Customers</a>
+      <a href="/admin/vehicles" class="%= currentPage==='vehicles'?'active':'' %>">🚌 Vehicles</a>
+      <a href="/admin/associates" class="%= currentPage==='associates'?'active':'' %>">🧑‍✈️ Associates</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span>👤 %= user.name %></span>
+      <a href="/auth/logout">Logout</a>
+    </div>
+  </aside>
+  <main class="admin-main">
+  </main>
+</div>

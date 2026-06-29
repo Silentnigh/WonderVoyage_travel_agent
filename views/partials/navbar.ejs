@@ -1,0 +1,19 @@
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="/" class="nav-brand">🌏 WonderVoyage</a>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle-input">
+    <label for="nav-toggle" class="nav-hamburger">☰</label>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/packages">Packages</a></li>
+      <li><a href="/contact">Contact</a></li>
+      <% if (user) { %>
+        <li><a href="/dashboard" class="nav-cta-ghost">My Bookings</a></li>
+        <li><a href="/auth/logout" class="nav-logout">Logout</a></li>
+      <% } else { %>
+        <li><a href="/auth/login" class="nav-cta-ghost">Login</a></li>
+        <li><a href="/auth/register" class="nav-cta">Register</a></li>
+      <% } %>
+    </ul>
+  </div>
+</nav>

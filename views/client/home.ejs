@@ -1,0 +1,80 @@
+<%- include('../partials/header', {title: 'Home'}) %>
+<%- include('../partials/navbar') %>
+
+<section class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Discover the World</p>
+    <h1 class="hero-title">Your Next Adventure<br>Starts Here</h1>
+    <p class="hero-sub">Handcrafted travel experiences across India's most breathtaking destinations. Let us take care of every detail.</p>
+    <div class="hero-actions">
+      <a href="/packages" class="btn btn-primary btn-lg">Explore Packages</a>
+      <a href="/contact" class="btn btn-outline btn-lg">Talk to an Expert</a>
+    </div>
+  </div>
+  <div class="hero-badges">
+    <div class="badge">🏆 10+ Years Experience</div>
+    <div class="badge">⭐ 4.9 Rating</div>
+    <div class="badge">🌍 50+ Destinations</div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Featured Packages</h2>
+      <p>Curated journeys for every kind of traveller</p>
+    </div>
+    <div class="packages-grid">
+      <% packages.forEach(pkg => { %>
+      <div class="package-card">
+        <div class="package-img" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+          <span class="package-duration"><%= pkg.duration_days %> Days</span>
+        </div>
+        <div class="package-body">
+          <h3><%= pkg.name %></h3>
+          <p><%= pkg.description.substring(0,100) %>...</p>
+          <div class="package-footer">
+            <div class="package-price">₹<%= pkg.price.toLocaleString('en-IN') %><span>/person</span></div>
+            <a href="/packages/<%= pkg.id %>" class="btn btn-sm btn-primary">View Details</a>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <a href="/packages" class="btn btn-outline">See All Packages →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-header">
+      <h2>Why Choose WonderVoyage?</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>Expert Planning</h3>
+        <p>Every itinerary crafted by seasoned local experts who know the destination inside out.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Best Value</h3>
+        <p>Competitive pricing with no hidden charges. What you see is exactly what you pay.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Safe & Secure</h3>
+        <p>Fully insured trips with 24/7 support throughout your journey.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📱</div>
+        <h3>Easy Booking</h3>
+        <p>Book online in minutes. Real-time status updates on every booking you make.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>
