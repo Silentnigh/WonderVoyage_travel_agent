@@ -1,6 +1,6 @@
 # WonderVoyage – Travel Agency Booking System
 
-A full-stack travel agency web app built with Node.js, Express, EJS, and SQLite (sql.js).
+A full-stack travel agency web app built with Node.js, Express, EJS, CSS and SQLite (sql.js).
 
 ## Features
 
